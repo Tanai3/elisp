@@ -23,6 +23,8 @@
 			       hl-line+
 			       magit
 			       ag
+			       regex-tool
+			       material-theme
 			       google-translate))
 (let ((not-installed (loop for x in installing-package-list
 			   when (not (package-installed-p x))
@@ -239,20 +241,22 @@
 
 (setq org-latex-defult-class "jarticle")
 
-(require 'migemo)
-(setq migemo-command "cmigemo")
-(setq migemo-options '("-q" "--emacs"))
+;; (require 'migemo)
+;; (setq migemo-command "cmigemo")
+;; (setq migemo-options '("-q" "--emacs"))
 
-;; Set your installed path
-(setq migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict")
-(setq migemo-user-dictionary nil)
-(setq migemo-regex-dictionary nil)
-(setq migemo-coding-system 'utf-8-unix)
-(load-library "migemo")
-(migemo-init)
+;; ;; Set your installed path
+;; (setq migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict")
+;; (setq migemo-user-dictionary nil)
+;; (setq migemo-regex-dictionary nil)
+;; (setq migemo-coding-system 'utf-8-unix)
+;; (load-library "migemo")
+;; (migemo-init)
 
 ;; latex => pdf
 (require 'latex-pdf)
 
 ;; regex-tool
 (require 'regex-tool)
+
+(load-theme 'material t)
