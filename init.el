@@ -158,6 +158,38 @@
 (setq ac-auto-start 4)
 (ac-set-trigger-key "TAB")
 
+;;;================================================================================
+;;; eldoc
+;;;================================================================================
+
+(require 'eldoc)
+(require 'eldoc-extension)
+(setq eldoc-idle-delay 0.05)
+(setq eldoc-echo-area-use-multiline-p t)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
+;;;================================================================================
+;;; rainbow-mode
+;;;================================================================================
+
+(require 'rainbow-mode)
+(add-hook 'python-mode-hook 'rainbow-mode)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
+(add-hook 'html-mode-hook 'rainbow-mode)
+
+;;;================================================================================
+;;; rainbow-delimiters
+;;;================================================================================
+
+(require 'rainbow-delimiters)
+(defun my-rainbow-delimiters-mode-turn-on ()
+  (rainbow-delimiters-mode t))
+(add-hook 'emacs-lisp-mode-hook 'my-rainbow-delimiters-mode-turn-on)
+(add-hook 'java-mode-hook 'my-rainbow-delimiters-mode-turn-on)
+(add-hook 'python-mode-hook 'my-rainbow-delimiters-mode-turn-on)
+
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - tabbar                                               ;;;
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
