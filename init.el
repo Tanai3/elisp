@@ -301,4 +301,6 @@
 ;; regex-tool
 (require 'regex-tool)
 
+;; magit
+(require 'magit)
 (load-theme 'material t)
