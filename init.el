@@ -147,6 +147,17 @@
 (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
 
+;;;================================================================================
+;;; auto-complete
+;;;================================================================================
+
+(require 'auto-complete)
+(require 'auto-complete-config)
+(global-auto-complete-mode t)
+(setq ac-delay 0.5)
+(setq ac-auto-start 4)
+(ac-set-trigger-key "TAB")
+
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - tabbar                                               ;;;
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
@@ -191,7 +202,6 @@
 (define-key global-map (kbd "C-;") 'my-comment-out)
 (define-key global-map (kbd "C-x ;") 'my-comment-out)
 
-(require 'php-mode)
 (require 'google-translate)
 (global-set-key (kbd "\C-x C-t") 'google-translate-at-point)
 ;; 翻訳のデフォルト値を設定（en -> ja）
