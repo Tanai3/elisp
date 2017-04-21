@@ -25,7 +25,9 @@
 			       ag
 			       regex-tool
 			       material-theme
-			       google-translate))
+			       google-translate
+                   clojure-mode
+                   ))
 (let ((not-installed (loop for x in installing-package-list
 			   when (not (package-installed-p x))
 			   collect x)))
@@ -33,7 +35,6 @@
     (package-refresh-contents)
     (dolist (pkg not-installed)
       (package-install pkg))))
-
 
 
 ;;;================================================================================
@@ -57,12 +58,12 @@
 
 (define-key global-map (kbd "\C-h") 'delete-backward-char)
 (define-key key-translation-map (kbd "\C-h") (kbd "<DEL>"))
-(define-key global-map (kbd "\C-k") 'kill-whole-line)
-(define-key global-map (kbd "\C-c C-k") 'kill-line)
-(define-key global-map (kbd "\C-a") 'back-to-indentation)
-(define-key global-map (kbd "\C-x C-M-x") 'edebug-defun)
-(define-key global-map (kbd "\C-z") 'set-mark-command)
-(global-set-key [f8] 'eshell)
+;; (define-key global-map (kbd "\C-k") 'kill-whole-line)
+;; (define-key global-map (kbd "\C-c C-k") 'kill-line)
+;; (define-key global-map (kbd "\C-a") 'back-to-indentation)
+;; (define-key global-map (kbd "\C-x C-M-x") 'edebug-defun)
+;; (define-key global-map (kbd "\C-z") 'set-mark-command)
+;; (global-set-key [f8] 'eshell)
 
 (setq scroll-step 1)
 (scroll-bar-mode -1)
@@ -73,7 +74,10 @@
 (setq inhibit-startup-screen t)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; window-split
+;;;================================================================================
+;;; window-split
+;;; C-t でバッファ分割　分割済みならバッファを移動
+;;;================================================================================
 (defun other-window-or-split()
   (interactive)
   (when (one-window-p)
@@ -81,6 +85,10 @@
   (other-window 1))
 (global-set-key (kbd "C-t") 'other-window-or-split)
 
+;;;================================================================================
+;;; all-indent
+;;; バッファ全体をインデント適応
+;;;================================================================================
 ;; all-indent
 (defun all-indent()
   (interactive)
@@ -89,6 +97,10 @@
 
 ;; use-region    => cut-region
 ;; no use-region => backward-kill-word
+;;;================================================================================
+;;; cut-or-kill-word
+;;; C-w をマーク中ならマーク範囲カット　そうでないなら単語削除
+;;;================================================================================
 (defun cut-or-kill-word()
   (interactive)
   (save-excursion
@@ -103,8 +115,10 @@
 ;; 列番号の表示
 (column-number-mode t)
 
+;;;================================================================================
+;;; linum
+;;;================================================================================
 (require 'linum)
-
 ;; 行移動を契機に描画
 (defvar linum-line-number 0)
 (declare-function linum-update-current "linum" ())
@@ -160,6 +174,7 @@
 
 ;;;================================================================================
 ;;; eldoc
+;;; 関数定義をミニバッファに表示
 ;;;================================================================================
 
 (require 'eldoc)
@@ -172,12 +187,12 @@
 
 ;;;================================================================================
 ;;; rainbow-mode
+;;; 色分け
 ;;;================================================================================
 
 (require 'rainbow-mode)
 (add-hook 'python-mode-hook 'rainbow-mode)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-mode)
-(add-hook 'html-mode-hook 'rainbow-mode)
 
 ;;;================================================================================
 ;;; rainbow-delimiters
@@ -225,64 +240,46 @@
 
 (setq-default truncate-partial-width-windows nil)
 
-
+;;;================================================================================
+;;; hl-line+
+;;; 現在行を強調表示
+;;;================================================================================
 (require 'hl-line+)
 (toggle-hl-line-when-idle)
 (set-face-background 'hl-line "navy")
 
-(require 'my-comment-out)
-(define-key global-map (kbd "C-;") 'my-comment-out)
-(define-key global-map (kbd "C-x ;") 'my-comment-out)
-
+;;;================================================================================
+;;; google-translate
+;;; マークで囲った範囲をGoogle翻訳に投げる
+;;;================================================================================
 (require 'google-translate)
 (global-set-key (kbd "\C-x C-t") 'google-translate-at-point)
-;; 翻訳のデフォルト値を設定（en -> ja）
 
+;;;================================================================================
+;;; popwin
+;;; バッファをポップアップ表示
+;;;================================================================================
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 ;; ポップアップを画面下に表示
 (setq popwin:popup-window-position 'bottom)
-;; latex-pdf.elの出力バッファをポップアップ
-(push '("*result-latex-pdf*") popwin:special-display-config)
 ;; Google-translate.elの翻訳バッファをポップアップで表示させる
 (push '("*Google Translate*") popwin:special-display-config)
 
+;;;================================================================================
+;;; aspell
+;;; スペルチェッカ
+;;;================================================================================
 ;; aspell
 (setq-default ispell-program-name "aspell")
 (eval-after-load "ispell"
   '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
- '(blink-cursor-mode nil)
- '(column-number-mode t)
- '(custom-enabled-themes (quote (manoj-dark)))
- '(google-translate-default-source-language "en")
- '(google-translate-default-target-language "ja")
- '(package-selected-packages
-   (quote
-    (gas-mode hiwin regex-tool ## migemo auto-install popwin google-translate tabbar php-mode hl-line+ anything)))
- '(show-paren-mode t)
- '(tabbar-mode t nil (tabbar))
- '(tabbar-mwheel-mode t nil (tabbar))
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Migu 1M" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
-
-(setq org-latex-defult-class "jarticle")
-
+;;;================================================================================
+;;; migemo
+;;; "migemo" -> "みげも" を検索可能になる
+;;;================================================================================
 ;; (require 'migemo)
 ;; (setq migemo-command "cmigemo")
 ;; (setq migemo-options '("-q" "--emacs"))
@@ -295,12 +292,5 @@
 ;; (load-library "migemo")
 ;; (migemo-init)
 
-;; latex => pdf
-(require 'latex-pdf)
 
-;; regex-tool
-(require 'regex-tool)
-
-;; magit
-(require 'magit)
 (load-theme 'material t)
