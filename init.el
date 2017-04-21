@@ -26,8 +26,7 @@
 			       regex-tool
 			       material-theme
 			       google-translate
-                   clojure-mode
-                   ))
+                   clojure-mode))
 (let ((not-installed (loop for x in installing-package-list
 			   when (not (package-installed-p x))
 			   collect x)))
@@ -74,6 +73,15 @@
 (setq inhibit-startup-screen t)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; clojure-mode を有効化
+(require 'clojure-mode)
+
+;;対応括弧を強調
+(show-paren-mode 1)
+(setq show-paren-style 'mixed)
+(setq show-paren-delay 0)
+(set-face-background 'show-paren-match-face "blue")
+
 ;;;================================================================================
 ;;; window-split
 ;;; C-t でバッファ分割　分割済みならバッファを移動
@@ -95,8 +103,6 @@
   (save-excursion
     (indent-region(point-min)(point-max))))
 
-;; use-region    => cut-region
-;; no use-region => backward-kill-word
 ;;;================================================================================
 ;;; cut-or-kill-word
 ;;; C-w をマーク中ならマーク範囲カット　そうでないなら単語削除
@@ -279,6 +285,7 @@
 ;;;================================================================================
 ;;; migemo
 ;;; "migemo" -> "みげも" を検索可能になる
+;;; cmigemoのバイナリが必要 yaourtで入る
 ;;;================================================================================
 ;; (require 'migemo)
 ;; (setq migemo-command "cmigemo")
@@ -292,5 +299,6 @@
 ;; (load-library "migemo")
 ;; (migemo-init)
 
-
+;; google-material のテーマ適応
 (load-theme 'material t)
+
