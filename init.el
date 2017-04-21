@@ -190,10 +190,12 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
 
 ;;;================================================================================
 ;;; rainbow-mode
-;;; 色分け
+;;; カラーコードに色表示
+;;; #ffffff #abcdef
 ;;;================================================================================
 
 (require 'rainbow-mode)
@@ -202,6 +204,7 @@
 
 ;;;================================================================================
 ;;; rainbow-delimiters
+;;; 括弧を階層ごとに色付け
 ;;;================================================================================
 
 (require 'rainbow-delimiters)
@@ -210,6 +213,7 @@
 (add-hook 'emacs-lisp-mode-hook 'my-rainbow-delimiters-mode-turn-on)
 (add-hook 'java-mode-hook 'my-rainbow-delimiters-mode-turn-on)
 (add-hook 'python-mode-hook 'my-rainbow-delimiters-mode-turn-on)
+(add-hook 'clojure-mode-hook 'my-rainbow-delimiters-mode-turn-on)
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - tabbar                                               ;;;
