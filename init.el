@@ -69,14 +69,20 @@
 (menu-bar-mode 1)
 (tool-bar-mode -1)
 (fset 'yes-or-no-p 'y-or-n-p)
+
+;; カーソルの点滅
+(blink-cursor-mode 0)
+;; 初期画面の設定
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
+
+;; 起動時最大化
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; clojure-mode を有効化
 (require 'clojure-mode)
 
-;;対応括弧を強調
+;; 対応括弧を強調
 (show-paren-mode 1)
 (setq show-paren-style 'mixed)
 (setq show-paren-delay 0)
