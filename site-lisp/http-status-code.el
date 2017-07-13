@@ -1,3 +1,17 @@
+(defvar teapot "
+                        00           (4(
+                     00000000         )1)
+                    1111111111       (8(
+                000000000000000    0000
+               0  00000000000000  00
+              0  00    I'm    00000
+               0000     a     0000
+                000   teapot  0000
+                 0000000000000000
+                  00000000000000
+")
+
+
 (defconst status-codes
   '(("100" . "Continue")
     ("101" . "Switching Protocols")
@@ -45,7 +59,6 @@
     ("423" . "Locked")
     ("424" . "Failed Dependency")
     ("426" . "Ungrade Required")
-    ("429" . "Too Many Requests")
     ("451" . "Unavailable For Legal Reasons")
     ("500" . "Internal Server Error")
     ("501" . "Not Implemented")
@@ -61,6 +74,10 @@
 
 (defun http-status-code(status)
   (interactive "sStatus-code : ")
-  (message "%s:%s" status (assoc-default status status-codes)))
+  (if (not(equal status "418"))
+      (message "%s:%s" status (assoc-default status status-codes))
+    (get-buffer-create "*I'm_a_teapot*")
+    (switch-to-buffer "*I'm_a_teapot*")
+    (insert teapot)))
 
 (provide 'http-status-code)
