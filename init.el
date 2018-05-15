@@ -16,7 +16,8 @@
 			       auto-complete
 			       popwin
 			       rainbow-delimiters
-			       anything
+				   ;; anything
+			       helm
 			       migemo
 			       eldoc
 			       rainbow-mode
@@ -161,14 +162,27 @@
 ;;; anything
 ;;;================================================================================
 
-(require 'anything-config)
-(require 'anything-match-plugin)
-(require 'anything-startup nil t)
-(require 'anything-migemo)
-(define-key global-map (kbd "\C-x C-b") 'anything)
-(define-key global-map (kbd "M-y") 'anything-show-kill-ring)
-(define-key global-map (kbd "\C-c i") 'anything-imenu)
-(define-key global-map (kbd "M-x") 'anything-M-x)
+;; (require 'anything-config)
+;; (require 'anything-match-plugin)
+;; (require 'anything-startup nil t)
+;; (require 'anything-migemo)
+;; (define-key global-map (kbd "\C-x C-b") 'anything)
+;; (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
+;; (define-key global-map (kbd "\C-c i") 'anything-imenu)
+;; (define-key global-map (kbd "M-x") 'anything-M-x)
+;; (setq desktop-globals-to-save '(extended-command-history))
+;; (setq desktop-files-not-to-save "")
+;; (desktop-save-mode 1)
+
+;;;================================================================================
+;;; helm
+;;;================================================================================
+
+(require 'helm)
+(require 'helm-config)
+(helm-mode 1)
+(define-key global-map (kbd "\C-x C-b") 'helm-mini)
+(define-key global-map (kbd "M-x") 'helm-M-x)
 (setq desktop-globals-to-save '(extended-command-history))
 (setq desktop-files-not-to-save "")
 (desktop-save-mode 1)
