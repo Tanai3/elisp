@@ -21,7 +21,7 @@
 			       migemo
 			       eldoc
 			       rainbow-mode
-			       hl-line+
+			       ;; hl-line+
 			       magit
 			       ag
 			       regex-tool
@@ -274,16 +274,44 @@
 ;;; hl-line+
 ;;; 現在行を強調表示
 ;;;================================================================================
-(require 'hl-line+)
-(toggle-hl-line-when-idle)
-(set-face-background 'hl-line "navy")
+;; (require 'hl-line+)
+;; (toggle-hl-line-when-idle)
+;; (set-face-background 'hl-line "navy")
 
 ;;;================================================================================
 ;;; google-translate
 ;;; マークで囲った範囲をGoogle翻訳に投げる
 ;;;================================================================================
 (require 'google-translate)
-(global-set-key (kbd "\C-x C-t") 'google-translate-at-point)
+(defvar google-translate-english-chars "[:ascii:]’“”–"
+  "これらの文字が含まれているときは英語とみなす")
+(defun google-translate-enja-or-jaen (&optional string)
+  "regionか、現在のセンテンスを言語自動判別でGoogle翻訳する。"
+  (interactive)
+  (setq string
+        (cond ((stringp string) string)
+              (current-prefix-arg
+               (read-string "Google Translate: "))
+              ((use-region-p)
+               (buffer-substring (region-beginning) (region-end)))
+              (t
+               (save-excursion
+                 (let (s)
+                   (forward-char 1)
+                   (backward-sentence)
+                   (setq s (point))
+                   (forward-sentence)
+                   (buffer-substring s (point)))))))
+  (let* ((asciip (string-match
+                  (format "\\`[%s]+\\'" google-translate-english-chars)
+                  string)))
+    (run-at-time 0.1 nil 'deactivate-mark)
+    (google-translate-translate
+     (if asciip "en" "ja")
+     (if asciip "ja" "en")
+     string)))
+(global-set-key (kbd "\C-x C-t") 'google-translate-enja-or-jaen)
+
 
 ;;;================================================================================
 ;;; popwin
