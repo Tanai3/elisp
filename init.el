@@ -24,6 +24,9 @@
 			       material-theme
 			       google-translate
 			       clojure-mode
+			       rust-mode
+			       yasnippet
+			       anzu
 			       ))
 (let ((not-installed (loop for x in installing-package-list
 			   when (not (package-installed-p x))
@@ -36,7 +39,7 @@
 
 ;;;===============================================================================
 ;;; title-insert
-;;; init.el 編集用
+;;; init.el 編集用 -> yasnippetに移行
 ;;;===============================================================================
 
 (defun title-insert()
@@ -81,6 +84,10 @@
 
 ;; clojure-mode を有効化
 (require 'clojure-mode)
+;; rust-mode を有効化
+(require 'rust-mode)
+;; docker-mode を有効化
+(require 'dockerfile-mode)
 
 ;; 対応括弧を強調
 (show-paren-mode 1)
@@ -98,10 +105,10 @@
 
 
 ;; 行番号の表示
-;; (line-number-mode t)
+(line-number-mode t)
 
 ;; 列番号の表示
-;; (column-number-mode t)
+(column-number-mode t)
 
 ;;;===============================================================================
 ;;; dired
@@ -158,8 +165,6 @@
     (erase-buffer)
     ;; (eshell-send-input)
     ))
-;;---------------------------------------------------------------------------
-
 
 ;;;===============================================================================
 ;;; my-elisp
@@ -177,6 +182,9 @@
 
 ;; Dropbox以下のファイルをemacs間自動共有
 (require 'auto-revert-file)
+
+;; latex変換
+(require 'latex-pdf)
 
 ;;;===============================================================================
 ;;; window-split
@@ -404,7 +412,9 @@
      string)))
 (global-set-key (kbd "\C-x C-t") 'google-translate-enja-or-jaen)
 
-
+(defun google-translate--get-b-d1 ()
+    ;; TKK='427110.1469889687'
+  (list 427110 1469889687))
 ;;;===============================================================================
 ;;; popwin
 ;;; バッファをポップアップ表示
@@ -462,10 +472,10 @@
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.p
+ ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (minimap clojure-mode google-translate material-theme regex-tool ag magit rainbow-mode migemo helm rainbow-delimiters popwin auto-complete hiwin tabbar)))
+    (anzu helm-c-yasnippet yasnippet dockerfile-mode rust-mode minimap clojure-mode google-translate material-theme regex-tool ag magit rainbow-mode migemo helm rainbow-delimiters popwin auto-complete hiwin tabbar)))
  '(tabbar-mode t nil (tabbar)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -479,6 +489,25 @@
 ;;;===============================================================================
 (setq make-backup-files nil) ;; バックアップファイル無効
 (setq auto-save-default nil) ;; 自動保存ファイル無効
+
+;;;===============================================================================
+;;; yasnippet
+;;;===============================================================================
+(require 'yasnippet)
+(require 'helm-c-yasnippet)
+(setq helm-yas-space-match-any-greedy t)
+(define-key global-map (kbd "C-c y") 'helm-yas-complete)
+(yas-global-mode 1)
+
+;;;===============================================================================
+;;; anzu
+;;;===============================================================================
+(global-anzu-mode +1)
+(custom-set-variables
+ '(anzu-mode-lighter "")
+ '(anzu-deactivate-region nil)
+ '(anzu-search-threshold 1000)
+ '(anzu-use-migemo t))
 
 ;;;===============================================================================
 ;;; Mac用設定
